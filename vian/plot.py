@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
 
+
 from visualstiumulation.utils import make_orientation_trials
 
 
