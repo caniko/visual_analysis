@@ -1,1 +1,1 @@
-from .psychopy import *
+from .pipeline import *

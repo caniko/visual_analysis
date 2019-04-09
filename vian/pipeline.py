@@ -13,7 +13,7 @@ from .analysis import orient_raster_plots, plot_tuning_overview
 from .exdir import *
 
 
-def psycho_plot(project_path, action_id, n_channel=8, rem_channel="all", skip_channels=None, raster_start=-0.5, raster_stop=1):
+def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", skip_channels=None, raster_start=-0.5, raster_stop=1):
     """
     Plot raster, isi-mean-median, tuning (polar and linear) from visual data acquired through open-ephys and psychopy
     Parameters
