@@ -8,10 +8,10 @@ import os
 def get_data_path(action):
     action_path = action._backend.path
     project_path = action_path.parent.parent
-    print(project_path)
     # data_path = action.data['main']
     data_path = str(pathlib.Path(pathlib.PureWindowsPath(action.data['main'])))
-    print(data_path)
+
+    print("Project path: {}\nData path: {}".format(project_path, data_path))
     return project_path / data_path
 
 

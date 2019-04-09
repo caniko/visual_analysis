@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
+from numpy import empty
+
+from copy import deepcopy
 import quantities as pq
 import seaborn as sns
 import expipe
 import exdir
 
-from copy import deepcopy
-from numpy import empty
+from visualstimulation.utils import make_spiketrain_trials, add_orientation_to_trials
 
-from visualstiumulation.utils import make_spiketrain_trials, add_orientation_to_trials
-from visualstimulation.plot import orient_raster_plots, plot_tuning_overview
-
+from .analysis import orient_raster_plots, plot_tuning_overview
 from .exdir import *
 
 

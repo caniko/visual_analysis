@@ -4,9 +4,9 @@ from elephant.statistics import isi
 import seaborn as sns
 import numpy as np
 
-from visualstiumulation.utils import make_orientation_trials
-from visualstiumulation.plot import polar_tuning_curve, plot_raster
-from visualstiumulation.analysis import (compute_orientation_tuning, compute_osi,
+from visualstimulation.utils import make_orientation_trials
+from visualstimulation.plot import polar_tuning_curve, plot_raster
+from visualstimulation.analysis import (compute_orientation_tuning, compute_osi,
                                          compute_dsi, compute_circular_variance
                                         )
 

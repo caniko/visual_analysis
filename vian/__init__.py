@@ -1,1 +1,1 @@
-from psychopy import *
+from .psychopy import *
