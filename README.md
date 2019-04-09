@@ -10,7 +10,7 @@ The functions inside pipeline.py file combines all functions into their respecti
 
 ### Install in other environemnts
 1. Clone [visual-stimulation](https://github.com/CINPLA/visual-stimulation)
-2. Inside the visual_stimulation directory execute `git checkout openephys`
+2. Inside the visual-stimulation directory execute `git checkout openephys`
 3. Optional: Make a virtual environment (venv) and/or activate venv
 4. Inside the visual-stimulation directory execute to install: `pip install .`
 5. Clone visual analysis
