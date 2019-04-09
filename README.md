@@ -5,7 +5,7 @@ The functions inside pipeline.py file combines all functions into their respecti
 ## Installation
 ### Install inside a [cinpla_base](https://github.com/CINPLA/cinpla-base) environemnt
 1. Activate your cinpla_base environment
-2. Inside the visual_stimulation directory (cinpla_base/src/visual-stimulation) execute `git checkout openephys`
+2. Inside the visual-stimulation directory (cinpla_base/src/visual-stimulation) execute `git checkout openephys`
 3. Inside the visual analysis directory execute to install: `pip install .`
 
 ### Install in other environemnts
