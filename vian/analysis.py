@@ -24,10 +24,10 @@ def plot_tuning_overview(trials, unit_spiketrain, spontan_rate=None, weights=(1,
         rates[channel_index_name][unit_id] = spontaneous firing rate trials.
     """
 
-    fig = plt.figure(figsize=(20, 10))
+    fig = plt.figure(figsize=(10, 5))
     gs = gridspec.GridSpec(2, 2)
     trials = make_orientation_trials(trials)
-    
+
     """ Analytical parameters """
     # Non-Weighed
     rates, orients = compute_orientation_tuning(trials)
@@ -85,9 +85,9 @@ def orient_raster_plots(trials):
     m_orient_trials = make_orientation_trials(trials)
     orients = list(m_orient_trials.keys())
 
-    col_count = 4
+    col_count = 2
     row_count = int(np.ceil(len(m_orient_trials)/col_count))
-    fig, ax = plt.subplots(row_count, col_count, figsize=(10*col_count, 4*row_count))
+    fig, ax = plt.subplots(row_count, col_count, figsize=(5*col_count, 2*row_count))
 
     i = 0
     for r in range(0, row_count):
@@ -100,6 +100,6 @@ def orient_raster_plots(trials):
             ax[r, c].grid(False)
 
             i += 1
-    
+
     plt.tight_layout()
     return fig
