@@ -25,9 +25,9 @@ def plot_tuning_overview(trials, unit_spiketrain, spontan_rate=None, weights=(1,
     """
 
     fig = plt.figure(figsize=(20, 10))
-    gs = gridspec.GridSpec(2, 2)
+    gs = gridspec.GridSpec(10, 5)
     trials = make_orientation_trials(trials)
-    
+
     """ Analytical parameters """
     # Non-Weighed
     rates, orients = compute_orientation_tuning(trials)
@@ -100,6 +100,6 @@ def orient_raster_plots(trials):
             ax[r, c].grid(False)
 
             i += 1
-    
+
     plt.tight_layout()
     return fig
