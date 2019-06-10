@@ -6,6 +6,7 @@ import quantities as pq
 import neo
 import numpy as np
 import os
+import spikeextractors as se
 
 
 def get_data_path(action):
@@ -56,25 +57,54 @@ def load_epochs(data_path):
     # epochs = seg.epochs
     return epochs
 
+def load_spiketrains(data_path, channel_group=None, load_waveforms=False, sample_rate=None,
+                    remove_group=None, t_start=0 * pq.s):
+   '''
 
-def load_spiketrains(data_path, channel_idx=None, remove_label='noise'):
-    io = neo.ExdirIO(str(data_path), plugins=[exdir.plugins.quantities, exdir.plugins.git_lfs.Plugin(verbose=True)])
-    blk = io.read_block()
-    channels = blk.channel_indexes
-    if channel_idx is None:
-        blk = io.read_block()
-        sptr = blk.segments[0].spiketrains
-    else:
-        blk = io.read_block(channel_group_idx=channel_idx)
-        channels = blk.channel_indexes
-        chx = channels[0]
-        sptr = [u.spiketrains[0] for u in chx.units]
-    if remove_label is not None:
-        if 'cluster_group' in sptr[0].annotations.keys():
-            sptr = [s for s in sptr if remove_label not in s.annotations['cluster_group']]
-        else:
-            print("Data have to be curated with phy to remove noise. Returning all spike trains")
-    return sptr
+   Parameters
+   ----------
+   data_path
+   channel_group
+   load_waveforms
+   remove_label
+
+   Returns
+   -------
+
+   '''
+   if sample_rate is None:
+       sample_rate = 30000 * pq.Hz
+   sorting = se.ExdirSortingExtractor(data_path, sample_rate=sample_rate.magnitude,
+                                      channel_group=channel_group, load_waveforms=load_waveforms)
+   sptr = []
+   # build neo pbjects
+   for u in sorting.get_unit_ids():
+       times = sorting.get_unit_spike_train(u) / sample_rate
+       t_stop = np.max(times)
+       if load_waveforms and 'waveforms' in sorting.get_unit_spike_feature_names(u):
+           wf = sorting.get_unit_spike_features(u, 'waveforms')
+       else:
+           wf = None
+       times = times - t_start
+       times = times[np.where(times > 0)]
+       if wf is not None:
+           wf = wf[np.where(times > 0)]
+       st = neo.SpikeTrain(times=times, t_stop=t_stop, waveforms=wf)
+       for p in sorting.get_unit_property_names(u):
+           st.annotations.update({p: sorting.get_unit_property(u, p)})
+       sptr.append(st)
+
+   sptr_rm = []
+   if remove_group is not None:
+       for st in sptr:
+           if st.annotations['cluster_group'] != remove_group:
+               sptr_rm.append(st)
+   else:
+       sptr_rm = sptr
+
+   return sptr_rm
+
+
 
 def _read_epoch(exdir_file, path, cascade=True, lazy=False):
     group = exdir_file[path]
