@@ -86,7 +86,7 @@ def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", ski
             orient_raster_fig.savefig(orf_path)
 
             # Orrientation vs spikefrequency plot (tuning curves) processing
-            trials = make_spiketrain_trials(spiketrain, oe_epoch)
+            trials = er.make_spiketrain_trials(spiketrain, oe_epoch)
             er.add_orientation_to_trials(trials, orients)
             tf_path = os.path.join(channel_path, figure_id + "tuning.png")
             tuning_fig = plot_tuning_overview(trials, spiketrain)
