@@ -1,16 +1,18 @@
-import matplotlib.pyplot as plt
-from numpy import empty
-
 from copy import deepcopy
+import os
+
+import matplotlib.pyplot as plt
 import quantities as pq
+from numpy import empty
 import seaborn as sns
+
+import exdir_reader as er
 import expipe
 import exdir
 
 from visualstimulation.utils import make_spiketrain_trials, add_orientation_to_trials
 
 from .analysis import orient_raster_plots, plot_tuning_overview
-from .exdir import *
 
 
 def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", skip_channels=None, raster_start=-0.5, raster_stop=1):
@@ -45,8 +47,8 @@ def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", ski
     # Define project tree
     project = expipe.get_project(project_path)
     action = project.actions[action_id]
-    data_path = get_data_path(action)
-    epochs = load_epochs(data_path)
+    data_path = er.get_data_path(action)
+    epochs = er.load_epochs(data_path)
 
     # Get data of interest (orients vs rates vs channel)
     oe_epoch = epochs[0]       # openephys
@@ -77,15 +79,15 @@ def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", ski
             sns.set()
             sns.set_style("white")
             # Raster plot processing
-            trials = make_spiketrain_trials(spiketrain, oe_epoch, t_start=raster_start, t_stop=raster_stop)
-            add_orientation_to_trials(trials, orients)
+            trials = er.make_spiketrain_trials(spiketrain, oe_epoch, t_start=raster_start, t_stop=raster_stop)
+            er.add_orientation_to_trials(trials, orients)
             orf_path = os.path.join(channel_path, figure_id + "orrient_raster.png")
             orient_raster_fig = orient_raster_plots(trials)
             orient_raster_fig.savefig(orf_path)
 
             # Orrientation vs spikefrequency plot (tuning curves) processing
             trials = make_spiketrain_trials(spiketrain, oe_epoch)
-            add_orientation_to_trials(trials, orients)
+            er.add_orientation_to_trials(trials, orients)
             tf_path = os.path.join(channel_path, figure_id + "tuning.png")
             tuning_fig = plot_tuning_overview(trials, spiketrain)
             tuning_fig.savefig(tf_path)
@@ -107,7 +109,7 @@ def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", ski
             channel_group = figures_group.require_group(channel_name)
             channel_path = os.path.join(str(data_path), "figures\\"  + channel_name)
 
-            spiketrains = load_spiketrains(str(data_path), channel)
+            spiketrains = er.load_spiketrains(str(data_path), channel)
 
             plot(channel, channel_path, spiketrains)
 
@@ -116,6 +118,6 @@ def experiment_plot(project_path, action_id, n_channel=8, rem_channel="all", ski
         channel_group = figures_group.require_group(channel_name)
         channel_path = os.path.join(str(data_path), "figures\\"  + channel_name)
 
-        spiketrains = load_spiketrains(str(data_path), rem_channel)
+        spiketrains = er.load_spiketrains(str(data_path), rem_channel)
 
         plot(rem_channel, channel_path, spiketrains)

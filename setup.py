@@ -11,7 +11,10 @@ install_requires = [
     'neo'
 ]
 
-dependency_links = ['https://github.com/CINPLA/visual-stimulation']
+dependency_links = [
+    'git+https://github.com/CINPLA/visual-stimulation.git',
+    'git+https://github.com/caniko2/read_exdir.git'
+]
 
 setup(
     name="vian",
